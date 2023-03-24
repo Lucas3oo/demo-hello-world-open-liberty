@@ -1,7 +1,7 @@
 # demo-hello-world-open-liberty
 
 Demo project with an REST API written with Open Liberty Java EE microprofile.
-It uses Apache DeltaSpike for the "repository pattern" to access the DB. 
+It uses Apache DeltaSpike for the "repository pattern" to access the DB.
 It works similar to Spring-data or Quarkus Panache.
 
 
@@ -27,7 +27,7 @@ Update
 ```
 curl -i --header "Content-Type: application/json" \
   --request PUT \
-  --data '{"id": "3", description":"The Silmarillion"}' \
+  --data '{"id": "3", "description":"The Silmarillion"}' \
    http://localhost:9080/demo-hello-world-open-liberty/app-demo/api/v1/books/3
 
 ```

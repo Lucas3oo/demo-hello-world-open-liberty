@@ -29,13 +29,4 @@ public interface BookMapper {
   @Mapping(target = "id", ignore = true)
   void updateEntity(BookDto dto, @MappingTarget BookEntity entity);
 
-  /**
-   * Convert from entity to DTO. It would be much nicer if this could be done by the repository layer so not all columns
-   * need to be fetched.
-   *
-   * @param entity
-   * @return the DTO
-   */
-  BookDto toDto(BookEntity entity);
-
 }

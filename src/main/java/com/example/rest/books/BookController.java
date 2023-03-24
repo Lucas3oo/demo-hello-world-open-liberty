@@ -29,19 +29,19 @@ public class BookController {
   private BookRepository mRepository;
 
   @Inject
-  private BookDtoRepository mDtoRepository;
-
-  @Inject
   private BookMapper mMapper;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
   @Transactional
-  public Long create(@Valid BookDto book) {
-    sLogger.info("in add method");
-
-    BookEntity entity = mMapper.createNewEntity(book);
-    return mRepository.save(entity).getId();
+  public Long create(@Valid BookDto dto) {
+    sLogger.info("in create method");
+    BookEntity entity = mMapper.createNewEntity(dto);
+    // save and flush so we can get the ID of the entity since the DB is generating the ID.
+    Long id = mRepository.saveAndFlush(entity).getId();
+    sLogger.info("in create method - created with id: {}", id);
+    return id;
   }
 
   @GET
@@ -50,13 +50,7 @@ public class BookController {
   public BookDto getById(@PathParam("id") Long id) {
     // TODO can't get debug log message on the console log
     sLogger.info("in getById method, id: {}", id);
-
-    // Optional<BookDto> dto = mRepository.findOptionalBy(id).map(e -> new BookDto(e.getId(), e.getDescription()));
-
-    // Optional<BookDto> dto = mDtoRepository.findOptionalBy(id);
-
-    Optional<BookDto> dto = mDtoRepository.retrieveBy(id);
-
+    Optional<BookDto> dto = mRepository.retrieveBy(id);
     // TODO empty Optional will be translated to 200, not really a good option
     return dto.orElseThrow(() -> new NotFoundException("Book with id '" + id + "' not found"));
   }
@@ -65,14 +59,14 @@ public class BookController {
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Transactional
-  public void update(@PathParam("id") Long id, @Valid BookDto book) {
-    sLogger.debug("in update method, id: {}", id);
-    if (!id.equals(NumberUtils.createLong(book.getId()))) {
+  public void update(@PathParam("id") Long id, @Valid BookDto dto) {
+    sLogger.info("in update method, id: {}", id);
+    if (!id.equals(NumberUtils.createLong(dto.getId()))) {
       throw new BadRequestException("Id in path and id in DTO are not the same.");
     }
     BookEntity entity = mRepository.findOptionalBy(id)
         .orElseThrow(() -> new NotFoundException("Book with id '" + id + "' not found"));
-    mMapper.updateEntity(book, entity);
+    mMapper.updateEntity(dto, entity);
   }
 
 }

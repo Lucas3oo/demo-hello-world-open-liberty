@@ -13,7 +13,11 @@
       <!-- end::schema-generation[] -->
       <!-- tag::for jakartaee-8.0 -->
       <property name="eclipselink.ddl-generation" value="create-tables" />
-      <property name="eclipselink.logging.level" value="INFO" />
+      <property name="eclipselink.logging.level" value="FINE" />
+      <property name="eclipselink.logging.parameters" value="true"/>
+      <!-- see https://wiki.eclipse.org/EclipseLink/Examples/JPA/Logging#Log_Level_Configuration -->
+      <property name="eclipselink.logging.logger" value="DefaultLogger"/>
+
       <!-- end::for jakartaee-8.0 -->
     </properties>
   </persistence-unit>

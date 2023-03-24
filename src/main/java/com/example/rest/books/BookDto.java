@@ -1,8 +1,14 @@
 package com.example.rest.books;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class BookDto {
 
   private String mId;
+
+  @NotEmpty(message = "can not be empty")
+  @Size(min = 1, max = 255)
   private String mDescription;
 
   public BookDto() {

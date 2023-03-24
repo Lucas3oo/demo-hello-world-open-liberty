@@ -31,6 +31,7 @@ dependencies {
 
   implementation "org.apache.deltaspike.core:deltaspike-core-api:${deltaspikeVersion}"
   implementation "org.apache.deltaspike.modules:deltaspike-data-module-api:${deltaspikeVersion}"
+  implementation "org.apache.deltaspike.modules:deltaspike-data-module-impl:${deltaspikeVersion}"
 
   implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 
@@ -48,7 +49,6 @@ dependencies {
 //  providedCompile 'org.eclipse.microprofile:microprofile:5.0'
 
   runtimeOnly "org.apache.deltaspike.core:deltaspike-core-impl:${deltaspikeVersion}"
-  runtimeOnly "org.apache.deltaspike.modules:deltaspike-data-module-impl:${deltaspikeVersion}"
   runtimeOnly 'org.slf4j:slf4j-jdk14:2.0.7'
 }
 
