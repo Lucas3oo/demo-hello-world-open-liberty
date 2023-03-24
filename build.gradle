@@ -27,37 +27,28 @@ def deltaspikeVersion = '1.9.6'
 
 dependencies {
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-  implementation 'org.apache.commons:commons-lang3:3.12.0'
-
   implementation "org.apache.deltaspike.core:deltaspike-core-api:${deltaspikeVersion}"
   implementation "org.apache.deltaspike.modules:deltaspike-data-module-api:${deltaspikeVersion}"
   implementation "org.apache.deltaspike.modules:deltaspike-data-module-impl:${deltaspikeVersion}"
-
   implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-
-
-
+  implementation 'org.apache.commons:commons-lang3:3.12.0'
   implementation 'org.slf4j:slf4j-api:2.0.7'
   jdbcLib 'com.h2database:h2:1.4.200'
   libertyRuntime 'io.openliberty:openliberty-runtime:23.0.0.2'
-
-
   providedCompile 'jakarta.platform:jakarta.jakartaee-api:8.0.0'
   providedCompile 'org.eclipse.microprofile:microprofile:4.0.1'
-
-//  providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
-//  providedCompile 'org.eclipse.microprofile:microprofile:5.0'
-
   runtimeOnly "org.apache.deltaspike.core:deltaspike-core-impl:${deltaspikeVersion}"
   runtimeOnly 'org.slf4j:slf4j-jdk14:2.0.7'
+//  providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
+//  providedCompile 'org.eclipse.microprofile:microprofile:5.0'
 }
 
-task copyJDBC(type: Copy) {
+task copyJdbc(type: Copy) {
   from configurations.jdbcLib
   into "${project.buildDir}/wlp/usr/servers/defaultServer/jdbc"
   include '*.jar'
 }
-deploy.dependsOn 'copyJDBC'
+deploy.dependsOn 'copyJdbc'
 
 
 clean.dependsOn 'libertyStop'

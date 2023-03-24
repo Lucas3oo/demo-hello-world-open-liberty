@@ -1,8 +1,8 @@
 # demo-hello-world-open-liberty
 
 Demo project with an REST API written with Open Liberty Java EE microprofile.
-It uses Apache DeltaSpike for the "repository pattern" to access the DB.
-It works similar to Spring-data or Quarkus Panache.
+It uses Apache DeltaSpike for the "repository pattern" to access the DB and MapStruct for mapping DTOs to entities.
+DeltaSpike works similar to Spring-data or Quarkus Panache.
 
 
 ## Start with
