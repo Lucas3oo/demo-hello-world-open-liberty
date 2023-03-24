@@ -47,16 +47,18 @@ public class BookController {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Optional<BookDto> getById(@PathParam("id") Long id) {
+  public BookDto getById(@PathParam("id") Long id) {
     // TODO can't get debug log message on the console log
     sLogger.info("in getById method, id: {}", id);
 
-//    Optional<BookEntity> entity = mRepository.findOptionalBy(id);
-//    return entity.map(e -> new BookDto(e.getId(), e.getDescription()));
+    // Optional<BookDto> dto = mRepository.findOptionalBy(id).map(e -> new BookDto(e.getId(), e.getDescription()));
 
-    // TODO empty Optional will be translated to 404 or will it?
-    return mDtoRepository.findOptionalBy(id);
+    // Optional<BookDto> dto = mDtoRepository.findOptionalBy(id);
 
+    Optional<BookDto> dto = mDtoRepository.retrieveBy(id);
+
+    // TODO empty Optional will be translated to 200, not really a good option
+    return dto.orElseThrow(() -> new NotFoundException("Book with id '" + id + "' not found"));
   }
 
   @PUT
