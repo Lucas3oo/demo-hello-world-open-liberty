@@ -1,0 +1,70 @@
+plugins {
+  id 'war'
+  id 'io.openliberty.tools.gradle.Liberty' version '3.5.2'
+}
+
+version '1.0-SNAPSHOT'
+group 'com.example'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+configurations {
+  jdbcLib
+}
+
+// versions
+def mapStructVersion = '1.4.1.Final'
+def deltaspikeVersion = '1.9.6'
+
+
+dependencies {
+  annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+  implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+  implementation "org.apache.deltaspike.core:deltaspike-core-api:${deltaspikeVersion}"
+  implementation "org.apache.deltaspike.modules:deltaspike-data-module-api:${deltaspikeVersion}"
+
+  implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+
+
+
+  implementation 'org.slf4j:slf4j-api:2.0.7'
+  jdbcLib 'com.h2database:h2:1.4.200'
+  libertyRuntime 'io.openliberty:openliberty-runtime:23.0.0.2'
+
+
+  providedCompile 'jakarta.platform:jakarta.jakartaee-api:8.0.0'
+  providedCompile 'org.eclipse.microprofile:microprofile:4.0.1'
+
+//  providedCompile 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
+//  providedCompile 'org.eclipse.microprofile:microprofile:5.0'
+
+  runtimeOnly "org.apache.deltaspike.core:deltaspike-core-impl:${deltaspikeVersion}"
+  runtimeOnly "org.apache.deltaspike.modules:deltaspike-data-module-impl:${deltaspikeVersion}"
+  runtimeOnly 'org.slf4j:slf4j-jdk14:2.0.7'
+}
+
+task copyJDBC(type: Copy) {
+  from configurations.jdbcLib
+  into "${project.buildDir}/wlp/usr/servers/defaultServer/jdbc"
+  include '*.jar'
+}
+deploy.dependsOn 'copyJDBC'
+
+
+clean.dependsOn 'libertyStop'
+
+
+// to upgrade the metainfo about which gradle version we shall use. Run ./gradlew wrapper after you have updated the version. The commit the new wrapper files except the gradlew.bat
+wrapper {
+  gradleVersion = '7.5.1'
+}
